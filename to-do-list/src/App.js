@@ -5,16 +5,26 @@ import {useState, useEffect} from 'react';
 function App() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
+  const [error, setError] = useState('');
 
-  const handleNewTask = () => {
-    setTasks([...tasks, newTask])
-    setNewTask('')
-
+  function handleNewTask() {
+    if(newTask!=''){
+      setTasks([...tasks, newTask]); setNewTask('');
+    }else {
+      setError('You cant create a task without a name you idiot!')
+    }
   }
 
   const handleDelete = (index) => {
     const updatedTasks = tasks.filter((item, i) => i !== index); // create a new array that excludes the item to delete
     setTasks(updatedTasks);
+  }
+
+
+  const handleKeyPress = (event) => {
+    if(event.key === 'Enter'){
+      handleNewTask()
+    }
   }
 
   return (
@@ -26,11 +36,14 @@ function App() {
           type='text'
           value={newTask} 
           placeholder='What do you want to do?'
-          onChange={(e) => setNewTask(e.target.value)}
+          onKeyPress={handleKeyPress}
+          onChange={(e) => {
+            setError(''); setNewTask(e.target.value)}}
           />
           <button onClick={handleNewTask}>Add Task</button>
         </div>
         <div id='tasks'>
+          <p>{error}</p>
           {tasks==[] ? <p>No task has been assigned yet</p>:tasks.map((task, index)=> {
             return<div className='task' key={index}>
             <p>{task}</p>

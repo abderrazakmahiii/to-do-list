@@ -21,6 +21,7 @@ code {
   height: 90vh;
   margin: auto;
   text-align: center;
+  overflow-y: auto;
 }
 
 #todo h1 {
