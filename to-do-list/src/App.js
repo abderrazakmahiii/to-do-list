@@ -6,7 +6,13 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
   const [error, setError] = useState('');
+  const [noTaskYet, setNoTaskYet] = useState('No tasks has been assigned yet');
 
+  useEffect(()=>{
+    tasks.length === 0? setNoTaskYet('No tasks has been assigned yet'): setNoTaskYet(''); 
+    console.log(noTaskYet)
+  }, [tasks])
+  
   function handleNewTask() {
     if(newTask!=''){
       setTasks([...tasks, newTask]); setNewTask('');
@@ -26,7 +32,6 @@ function App() {
       handleNewTask()
     }
   }
-
   return (
     <div className="App">
       <div id='todo'>
@@ -44,14 +49,13 @@ function App() {
         </div>
         <div id='tasks'>
           <p>{error}</p>
-          {tasks==[] ? <p>No task has been assigned yet</p>:tasks.map((task, index)=> {
-            return<div className='task' key={index}>
-            <p>{task}</p>
-            <div className='options'>
-              <BsTrash className='option' onClick={()=> handleDelete(index)}/>
-            </div>
-          </div>
-          })}
+          <p>{noTaskYet}</p>
+          {tasks.map((task, index)=> {
+             return <div className='task' key={index}>
+              <p>{task}</p><div className='options'>
+                <BsTrash className='option' onClick={()=> handleDelete(index)}/> 
+                </div>
+                </div>})}
         </div>
       </div>
     </div>
