@@ -2,6 +2,9 @@ import './index.css';
 import {MdEdit} from 'react-icons/md';
 import {BsTrash} from 'react-icons/bs';
 import {useState, useEffect} from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 function App() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
@@ -13,6 +16,10 @@ function App() {
     console.log(noTaskYet)
   }, [tasks])
   
+  useEffect(()=>{
+    AOS.init({duration: 2000});
+  }, [])
+
   function handleNewTask() {
     if(newTask!=''){
       setTasks([...tasks, newTask]); setNewTask('');
@@ -33,7 +40,7 @@ function App() {
     }
   }
   return (
-    <div className="App">
+    <div className="App" data-aos="fade-up">
       <div id='todo'>
         <div id='new'>
           <h1>Get things done!</h1>
@@ -48,10 +55,10 @@ function App() {
           <button onClick={handleNewTask}>Add Task</button>
         </div>
         <div id='tasks'>
-          <p>{error}</p>
-          <p>{noTaskYet}</p>
+          <p data-aos="fade-up">{error}</p>
+          <p data-aos="fade-up">{noTaskYet}</p>
           {tasks.map((task, index)=> {
-             return <div className='task' key={index}>
+             return <div className='task' key={index} data-aos="fade-up">
               <p>{task}</p><div className='options'>
                 <BsTrash className='option' onClick={()=> handleDelete(index)}/> 
                 </div>
